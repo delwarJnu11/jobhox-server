@@ -31,13 +31,14 @@ const run = async () => {
     });
 
     //Get user by email
-    app.get("user/:email", async (req, res) => {
+    app.get("/user/:email", async (req, res) => {
       const email = req.params.email;
       const user = await usersCollection.findOne({ email });
       if (user?.email) {
         return res.send({ status: true, data: user });
+      } else {
+        return res.send({ status: false });
       }
-      res.send({ status: false });
     });
 
     //Post User to Database
