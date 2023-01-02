@@ -23,12 +23,21 @@ const run = async () => {
     const usersCollection = database.collection("users");
     console.log("database connected.");
 
+    //Get All users from database
     app.get("/users", async (req, res) => {
       const cursor = usersCollection.find({});
       const users = await cursor.toArray();
       res.send(users);
     });
 
+    //Get user by email
+    app.get("user/:email", async (req, res) => {
+      const email = req.params.email;
+      const user = await usersCollection.findOne({ email });
+      res.send(user);
+    });
+
+    //Post User to Database
     app.post("/user", async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
