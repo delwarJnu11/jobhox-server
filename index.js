@@ -34,7 +34,10 @@ const run = async () => {
     app.get("user/:email", async (req, res) => {
       const email = req.params.email;
       const user = await usersCollection.findOne({ email });
-      res.send(user);
+      if (user?.email) {
+        return res.send({ status: true, data: user });
+      }
+      res.send({ status: false });
     });
 
     //Post User to Database
